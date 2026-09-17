@@ -90,8 +90,8 @@ Modern Stagger Lock overhauls Skyrim's stagger mechanics into a responsive, dire
 
 ## Credits & Licensing
 
-- **Original Mod & Author:** [max-su-2019](https://github.com/max-su-2019) ([ModernStaggerLock](https://github.com/max-su-2019/ModernStaggerLock))
-- **CommonLibSSE-NG:** [alandtse](https://github.com/alandtse) and contributors
-- **DKUtil:** [GotobedSkyrim](https://github.com/GotobedSkyrim) / [Karuro](https://github.com/Karuro) / [doodlum](https://github.com/doodlum)
-- **Port to 1.7.104.0:** Maintained for Skyrim AE 1.7.104.0 compatibility
-- **License:** [MIT License](LICENSE) (c) 2023 max-su-2019
+- **Original Mod & Author:** [max-su-2019](https://github.com/max-su-2019) ([ModernStaggerLock](https://github.com/max-su-2019/ModernStaggerLock)) (Original code licensed under MIT).
+- **CommonLibSSE-NG:** [alandtse](https://github.com/alandtse) and contributors ([GPL-3.0-or-later](https://github.com/alandtse/CommonLibSSE-NG/blob/main/COPYING.txt)).
+- **DKUtil:** [GotobedSkyrim](https://github.com/GotobedSkyrim) / [Karuro](https://github.com/Karuro) / [doodlum](https://github.com/doodlum).
+- **Port to 1.7.104.0:** Maintained for Skyrim AE 1.7.104.0 compatibility.
+- **License:** This compatibility port is distributed under the **GNU General Public License v3.0** ([LICENSE](LICENSE)) due to integration with CommonLibSSE-NG (GPL-3.0-or-later). Original credits and copyrights belong to max-su-2019.
