@@ -1,0 +1,29 @@
+# Build and Output Directories
+build/
+bin/
+out/
+package_staging/
+Tmp/
+
+# Visual Studio / IDE files
+.vs/
+*.user
+*.suo
+*.VC.db
+*.opendb
+*.sln.docstates
+
+# CMake generated files
+CMakeUserPresets.json
+CMakeFiles/
+CMakeCache.txt
+
+# Release Archives
+*.zip
+*.7z
+*.rar
+*.tar.gz
+
+# Logs & Temp files
+*.log
+*.tmp
