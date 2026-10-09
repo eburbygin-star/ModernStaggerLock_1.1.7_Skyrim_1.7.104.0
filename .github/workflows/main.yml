@@ -26,7 +26,7 @@ jobs:
     - name: Install vcpkg dependencies
       run: |
         cd $env:USERPROFILE
-        vcpkg install spdlog directxtk directxmath nlohmann-json tomlplusplus xbyak --triplet x64-windows-static-md
+        vcpkg install spdlog directxtk directxmath nlohmann-json tomlplusplus xbyak simpleini --triplet x64-windows-static-md
       shell: pwsh
 
     - name: Clone CommonLibSSE-NG
@@ -46,6 +46,18 @@ jobs:
         (Get-Content CMakeLists.txt -Raw) -replace '\$\(ConfigurationName\)', '$<CONFIG>' | Set-Content CMakeLists.txt -NoNewline
       shell: pwsh
 
+    - name: Patch DKUtil for PSAPI
+      run: |
+        $file = "DKUtil/include/DKUtil/Impl/Hook/Shared.hpp"
+        if (Test-Path $file) {
+          $content = Get-Content $file -Raw
+          if ($content -notmatch 'psapi\.h') {
+            $content = "#include <psapi.h>`n#define PSAPI_VERSION 1`n" + $content
+          }
+          $content | Set-Content $file -NoNewline
+        }
+      shell: pwsh
+
     - name: Configure CMake
       env:
         VCPKG_ROOT: C:/vcpkg
@@ -53,7 +65,7 @@ jobs:
         DKUtilPath: ${{ github.workspace }}/DKUtil
         HEADLESS: 1
       run: |
-        cmake -B build -S . -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows-static-md -DVCPKG_MANIFEST_MODE=OFF
+        cmake -B build -S . -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows-static-md -DVCPKG_MANIFEST_MODE=OFF -DBUILD_TESTS=OFF -DSKSE_SUPPORT_XBYAK=ON
 
     - name: Build
       run: cmake --build build
