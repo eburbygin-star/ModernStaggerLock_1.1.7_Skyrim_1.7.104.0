@@ -31,7 +31,7 @@ jobs:
 
     - name: Clone DKUtil
       run: |
-        git clone https://github.com/Karuro/DKUtil.git DKUtil
+        git clone https://github.com/doodlum/DKUtil.git DKUtil
         cd DKUtil
         git checkout 9ffa84252269e0f41b16715b5b9a7a9686c8fc40
 
@@ -50,7 +50,7 @@ jobs:
     - name: Find DLL
       run: |
         dir build
-        dir build/Release
+        if (Test-Path "build/Release") { dir build/Release }
       shell: pwsh
 
     - name: Upload Artifact
