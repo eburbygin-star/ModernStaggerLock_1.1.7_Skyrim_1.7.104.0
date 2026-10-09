@@ -17,15 +17,28 @@ jobs:
     - name: Setup MSVC
       uses: ilammy/msvc-dev-cmd@v1
 
-    - name: Setup vcpkg
+    - name: Install vcpkg dependency
+      run: vcpkg install spdlog:x64-windows-static-md
+
+    - name: Clone CommonLibSSE-NG
       run: |
-        git clone https://github.com/microsoft/vcpkg.git
-        .\vcpkg\bootstrap-vcpkg.bat
-        .\vcpkg\vcpkg install spdlog:x64-windows-static-md
+        git clone https://github.com/alandtse/CommonLibSSE-NG.git CommonLibSSE-NG
+        cd CommonLibSSE-NG
+        git checkout 1504349dddfc622d4d25704bba19e2ade669dc5a
+
+    - name: Clone DKUtil
+      run: |
+        git clone https://github.com/gotobed-skyrim/DKUtil.git DKUtil
+        cd DKUtil
+        git checkout 9ffa84252269e0f41b16715b5b9a7a9686c8fc40
 
     - name: Configure CMake
+      env:
+        CommonLibSSEPath: ${{ github.workspace }}/CommonLibSSE-NG
+        DKUtilPath: ${{ github.workspace }}/DKUtil
+        HEADLESS: 1
       run: |
-        cmake -B build -S . -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        cmake -B build -S . -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
 
     - name: Build
       run: cmake --build build --config Release
