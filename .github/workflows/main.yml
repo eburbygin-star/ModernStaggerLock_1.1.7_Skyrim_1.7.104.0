@@ -17,17 +17,12 @@ jobs:
     - name: Setup MSVC
       uses: ilammy/msvc-dev-cmd@v1
 
-    - name: Clone CommonLibSSE-NG
+    - name: Check submodules
       run: |
-        git clone https://github.com/alandtse/CommonLibSSE-NG.git CommonLibSSE-NG
-        cd CommonLibSSE-NG
-        git checkout 1504349dddfc622d4d25704bba19e2ade669dc5a
-
-    - name: Clone DKUtil
-      run: |
-        git clone https://github.com/gotobed-skyrim/DKUtil.git DKUtil
-        cd DKUtil
-        git checkout 9ffa84252269e0f41b16715b5b9a7a9686c8fc40
+        dir
+        if (Test-Path "CommonLibSSE-NG") { dir CommonLibSSE-NG }
+        if (Test-Path "DKUtil") { dir DKUtil }
+      shell: pwsh
 
     - name: Configure CMake
       env:
