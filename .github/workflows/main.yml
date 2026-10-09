@@ -46,12 +46,11 @@ jobs:
         (Get-Content CMakeLists.txt -Raw) -replace '\$\(ConfigurationName\)', '$<CONFIG>' | Set-Content CMakeLists.txt -NoNewline
       shell: pwsh
 
-    - name: Remove PostBuild command
+    - name: Disable PostBuild script
       run: |
         $file = "CMakeLists.txt"
         $content = Get-Content $file -Raw
-        $pattern = '(?s)# post build event\s*add_custom_command\s*\(.*?\)\s*'
-        $content = $content -replace $pattern, ''
+        $content = $content -replace 'powershell -NoProfile -ExecutionPolicy Bypass -File "\$\{CMAKE_CURRENT_SOURCE_DIR\}/!Update\.ps1" "COPY"[^\r\n]*', 'echo Skipping post-build'
         $content | Set-Content $file -NoNewline
       shell: pwsh
 
