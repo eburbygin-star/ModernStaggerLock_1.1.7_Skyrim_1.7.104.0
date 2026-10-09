@@ -26,7 +26,7 @@ jobs:
     - name: Install vcpkg dependencies
       run: |
         cd $env:USERPROFILE
-        vcpkg install spdlog directxtk directxmath nlohmann_json --triplet x64-windows-static-md
+        vcpkg install spdlog directxtk directxmath nlohmann-json --triplet x64-windows-static-md
       shell: pwsh
 
     - name: Clone CommonLibSSE-NG
