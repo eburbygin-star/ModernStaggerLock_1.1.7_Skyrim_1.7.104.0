@@ -41,6 +41,11 @@ jobs:
         cd DKUtil
         git checkout 9ffa84252269e0f41b16715b5b9a7a9686c8fc40
 
+    - name: Patch CMakeLists.txt for Ninja
+      run: |
+        (Get-Content CMakeLists.txt -Raw) -replace '\$\(ConfigurationName\)', '$<CONFIG>' | Set-Content CMakeLists.txt -NoNewline
+      shell: pwsh
+
     - name: Configure CMake
       env:
         VCPKG_ROOT: C:/vcpkg
