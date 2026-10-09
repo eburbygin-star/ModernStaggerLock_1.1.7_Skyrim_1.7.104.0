@@ -58,6 +58,14 @@ jobs:
         }
       shell: pwsh
 
+    - name: Patch Settings.cpp
+      run: |
+        $file = "src/Settings.cpp"
+        $content = Get-Content $file -Raw
+        $content = $content.Replace('GetAllFiles<false>("Data\\SKSE\\Plugins\\ModernStaggerLock"sv, ".json"sv, {}, "_MSL"sv)', 'GetAllFiles("Data\\SKSE\\Plugins\\ModernStaggerLock"sv, ".json"sv, {}, "_MSL"sv, false)')
+        $content | Set-Content $file -NoNewline
+      shell: pwsh
+
     - name: Configure CMake
       env:
         VCPKG_ROOT: C:/vcpkg
