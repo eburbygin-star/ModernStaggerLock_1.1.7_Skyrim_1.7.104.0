@@ -46,6 +46,15 @@ jobs:
         (Get-Content CMakeLists.txt -Raw) -replace '\$\(ConfigurationName\)', '$<CONFIG>' | Set-Content CMakeLists.txt -NoNewline
       shell: pwsh
 
+    - name: Remove PostBuild command
+      run: |
+        $file = "CMakeLists.txt"
+        $content = Get-Content $file -Raw
+        $pattern = '(?s)# post build event\s*add_custom_command\s*\(.*?\)\s*'
+        $content = $content -replace $pattern, ''
+        $content | Set-Content $file -NoNewline
+      shell: pwsh
+
     - name: Patch DKUtil for PSAPI
       run: |
         $file = "DKUtil/include/DKUtil/Impl/Hook/Shared.hpp"
