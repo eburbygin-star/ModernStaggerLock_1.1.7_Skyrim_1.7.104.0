@@ -10,19 +10,18 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository with submodules
+      uses: actions/checkout@v4
       with:
         submodules: recursive
 
     - name: Setup MSVC
       uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: x64
 
-    - name: Check submodules
-      run: |
-        dir
-        if (Test-Path "CommonLibSSE-NG") { dir CommonLibSSE-NG }
-        if (Test-Path "DKUtil") { dir DKUtil }
-      shell: pwsh
+    - name: Install Ninja
+      run: choco install ninja
 
     - name: Configure CMake
       env:
@@ -30,13 +29,13 @@ jobs:
         DKUtilPath: ${{ github.workspace }}/DKUtil
         HEADLESS: 1
       run: |
-        cmake -B build -S . -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows-static-md
+        cmake -B build -S . -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows-static-md
 
     - name: Build
-      run: cmake --build build --config Release
+      run: cmake --build build
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
         name: ModernStaggerLock-DLL
-        path: build/Release/ModernStaggerLock.dll
+        path: build/ModernStaggerLock.dll
