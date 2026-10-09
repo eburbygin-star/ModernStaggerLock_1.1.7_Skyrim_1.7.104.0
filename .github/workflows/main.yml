@@ -23,19 +23,41 @@ jobs:
     - name: Install Ninja
       run: choco install ninja
 
+    - name: Clone CommonLibSSE-NG
+      run: |
+        git clone https://github.com/alandtse/CommonLibSSE-NG.git CommonLibSSE-NG
+        cd CommonLibSSE-NG
+        git checkout 1504349dddfc622d4d25704bba19e2ade669dc5a
+
+    - name: Clone DKUtil
+      run: |
+        git clone https://github.com/Karuro/DKUtil.git DKUtil
+        cd DKUtil
+        git checkout 9ffa84252269e0f41b16715b5b9a7a9686c8fc40
+
     - name: Configure CMake
       env:
+        VCPKG_ROOT: C:/vcpkg
         CommonLibSSEPath: ${{ github.workspace }}/CommonLibSSE-NG
         DKUtilPath: ${{ github.workspace }}/DKUtil
         HEADLESS: 1
       run: |
-        cmake -B build -S . -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows-static-md
+        cmake -B build -S . -G Ninja -DCMAKE_BUILD_TYPE=Release
 
     - name: Build
       run: cmake --build build
+
+    - name: Find DLL
+      run: |
+        dir build
+        dir build/Release
+      shell: pwsh
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
         name: ModernStaggerLock-DLL
-        path: build/ModernStaggerLock.dll
+        path: |
+          build/ModernStaggerLock.dll
+          build/Release/ModernStaggerLock.dll
+        if-no-files-found: warn
